@@ -15,7 +15,13 @@ Split(['#editor-area', '#preview-area'], {
 const editor = document.getElementById('editor');
 const preview = document.getElementById('graph');
 
+let currentScale = 1;
+let translateX = 0;
+let translateY = 0;
+let isPanning = false;
+let startX, startY;
 let renderTimeout;
+
 async function render() {
     clearTimeout(renderTimeout);
     renderTimeout = setTimeout(async () => {
@@ -24,11 +30,66 @@ async function render() {
         try {
             const { svg } = await mermaid.render('mermaid-svg', code);
             preview.innerHTML = svg;
+            applyZoom();
         } catch (e) {
             console.error("Mermaid syntax error", e);
         }
     }, 300); // debounce 300ms
 }
+
+function zoom(delta) {
+    currentScale = Math.max(0.1, Math.min(5, currentScale + delta));
+    applyZoom();
+}
+
+function resetZoom() {
+    currentScale = 1;
+    translateX = 0;
+    translateY = 0;
+    applyZoom();
+}
+
+function applyZoom() {
+    const svg = preview.querySelector('svg');
+    if (svg) {
+        svg.style.transform = `translate(${translateX}px, ${translateY}px) scale(${currentScale})`;
+        svg.style.transformOrigin = 'center center';
+        svg.style.transition = isPanning ? 'none' : 'transform 0.2s ease-out';
+        svg.style.cursor = isPanning ? 'grabbing' : 'grab';
+    }
+}
+
+preview.addEventListener('mousedown', (e) => {
+    // Only allow panning if clicking on the background or the SVG itself
+    isPanning = true;
+    startX = e.clientX - translateX;
+    startY = e.clientY - translateY;
+    applyZoom();
+});
+
+window.addEventListener('mousemove', (e) => {
+    if (!isPanning) return;
+    translateX = e.clientX - startX;
+    translateY = e.clientY - startY;
+    applyZoom();
+});
+
+window.addEventListener('mouseup', () => {
+    if (isPanning) {
+        isPanning = false;
+        applyZoom();
+    }
+});
+
+// Initial cursor style
+preview.style.cursor = 'grab';
+
+// Mouse wheel zoom
+preview.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    const delta = e.deltaY > 0 ? -0.1 : 0.1;
+    zoom(delta);
+}, { passive: false });
 
 async function saveToDB() {
     const title = document.getElementById('title').value || "Untitled";

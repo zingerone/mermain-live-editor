@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mermaid Pro Editor</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/split.js/1.6.0/split.min.js"></script>
+    <link rel="stylesheet" href="/static/css/fonts.css">
+    <script src="/static/js/lib/mermaid.min.js"></script>
+    <script src="/static/js/lib/split.min.js"></script>
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
@@ -41,16 +41,30 @@
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                     Live Preview
                 </div>
-                
-                <div class="dropdown">
-                    <button class="btn-primary dropdown-btn" style="width: auto; padding: 6px 12px; font-size: 0.75rem; background: var(--border-color); color: var(--text-primary);">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                        Download ▾
-                    </button>
-                    <div class="dropdown-content">
-                        <a href="#" onclick="downloadImage('svg')">Download SVG</a>
-                        <a href="#" onclick="downloadImage('png')">Download PNG</a>
-                        <a href="#" onclick="downloadImage('jpeg')">Download JPEG</a>
+
+                <div style="display: flex; gap: 8px; align-items: center;">
+                    <div class="zoom-controls">
+                        <button class="btn-icon" onclick="zoom(-0.1)" title="Zoom Out">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        </button>
+                        <button class="btn-icon" onclick="resetZoom()" title="Reset & Center">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><polyline points="3 3 3 8 8 8"></polyline></svg>
+                        </button>
+                        <button class="btn-icon" onclick="zoom(0.1)" title="Zoom In">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        </button>
+                    </div>
+                    
+                    <div class="dropdown">
+                        <button class="btn-primary dropdown-btn" style="width: auto; padding: 6px 12px; font-size: 0.75rem; background: var(--border-color); color: var(--text-primary);">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                            Download ▾
+                        </button>
+                        <div class="dropdown-content">
+                            <a href="#" onclick="downloadImage('svg')">Download SVG</a>
+                            <a href="#" onclick="downloadImage('png')">Download PNG</a>
+                            <a href="#" onclick="downloadImage('jpeg')">Download JPEG</a>
+                        </div>
                     </div>
                 </div>
             </div>
