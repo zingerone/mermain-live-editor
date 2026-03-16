@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mermaid Pro Editor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/split.js/1.6.0/split.min.js"></script>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div id="sidebar">
+        <div class="sidebar-header">
+            <h3>Mibi Mermaid</h3>
+            <button class="btn-primary" onclick="resetEditor()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                New Diagram
+            </button>
+        </div>
+        <div id="history-list"></div>
+    </div>
+
+    <div class="main-content">
+        <div id="editor-area">
+            <div class="toolbar">
+                <input type="text" id="category" placeholder="Category" style="width: 120px;">
+                <input type="text" id="title" placeholder="Diagram Title" style="flex: 1;">
+                <button class="btn-primary" style="width: auto; padding: 8px 20px;" onclick="saveToDB()">Save</button>
+            </div>
+            <textarea id="editor" oninput="render()" spellcheck="false">graph TD
+    A[Start] --> B(Premium UI Design)
+    B --> C{Looks Good?}
+    C -->|Yes| D[Ship It!]
+    C -->|No| E[Refactor]</textarea>
+        </div>
+
+        <div id="preview-area">
+            <div class="toolbar" style="justify-content: space-between;">
+                <div class="toolbar-title">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                    Live Preview
+                </div>
+                
+                <div class="dropdown">
+                    <button class="btn-primary dropdown-btn" style="width: auto; padding: 6px 12px; font-size: 0.75rem; background: var(--border-color); color: var(--text-primary);">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        Download ▾
+                    </button>
+                    <div class="dropdown-content">
+                        <a href="#" onclick="downloadImage('svg')">Download SVG</a>
+                        <a href="#" onclick="downloadImage('png')">Download PNG</a>
+                        <a href="#" onclick="downloadImage('jpeg')">Download JPEG</a>
+                    </div>
+                </div>
+            </div>
+            <div id="graph" class="mermaid"></div>
+        </div>
+    </div>
+
+    <script src="/static/js/main.js"></script>
+</body>
+</html>

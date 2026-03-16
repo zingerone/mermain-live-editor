@@ -1,0 +1,10 @@
+diagrams.db
+vendor/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+bin/
+dist/
+.DS_Store
